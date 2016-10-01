@@ -1,4 +1,4 @@
 package com.github.clarkdo;
 
-public class JDK9 {
+public class JDK {
 }
