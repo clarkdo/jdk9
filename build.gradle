@@ -7,7 +7,13 @@
  */
 
 // Apply the java-library plugin to add support for Java Library
+
 apply plugin: 'java-library'
+
+group 'com.github.clarkdo'
+version '1.0.0'
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
 
 // In this section you declare where to find the dependencies of your project
 repositories {
