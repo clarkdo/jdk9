@@ -15,7 +15,9 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'jdk9'
+rootProject.name = 'jdk'
 include 'collection'
 include 'http'
 include 'stream'
+include 'process'
+
