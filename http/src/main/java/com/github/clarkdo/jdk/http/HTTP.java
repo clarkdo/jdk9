@@ -1,4 +1,4 @@
-package com.github.clarkdo.jdk9.http;
+package com.github.clarkdo.jdk.http;
 
 import jdk.incubator.http.HttpClient;
 import jdk.incubator.http.HttpRequest;
@@ -12,6 +12,9 @@ import java.util.concurrent.Future;
 
 public final class HTTP {
 
+  public static void main(String[] args){
+    HTTP.ip();
+  }
   public static final String ip() {
     HttpClient client = HttpClient.newHttpClient();
     HttpResponse<String> response = null;

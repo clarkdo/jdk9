@@ -1,6 +1,5 @@
-package com.github.clarkdo.jdk.test.http;
+package com.github.clarkdo.jdk.http;
 
-import com.github.clarkdo.jdk.http.HTTP;
 import jdk.incubator.http.HttpResponse;
 import org.junit.Assert;
 import org.junit.Test;
