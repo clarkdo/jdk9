@@ -1,3 +1,3 @@
-module com.github.clarkdo.jdk9 {
+module com.github.clarkdo.jdk {
   requires java.base;
 }

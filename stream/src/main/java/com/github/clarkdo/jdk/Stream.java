@@ -1,4 +1,4 @@
-package com.github.clarkdo.jdk9;
+package com.github.clarkdo.jdk;
 
 public class Stream {
 }
