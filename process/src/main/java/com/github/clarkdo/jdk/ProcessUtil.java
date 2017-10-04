@@ -6,7 +6,11 @@ import java.util.stream.Stream;
 
 public final class ProcessUtil {
 
-  public final static void print(ProcessHandle p) {
+  /**
+   * Print the process related info into console.
+   * @param p ProcessHandle
+   */
+  public static final void print(ProcessHandle p) {
     String na = "<not available>";
     ProcessHandle.Info info = p.info();
     System.out.printf("Process ID: %s%n", p.pid());

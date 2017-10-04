@@ -1,20 +1,26 @@
 package com.github.clarkdo.jdk.http;
 
-import jdk.incubator.http.HttpClient;
-import jdk.incubator.http.HttpRequest;
-import jdk.incubator.http.HttpResponse;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
-public final class HTTP {
+import jdk.incubator.http.HttpClient;
+import jdk.incubator.http.HttpRequest;
+import jdk.incubator.http.HttpResponse;
 
-  public static void main(String[] args){
-    HTTP.ip();
+
+public final class Http {
+
+  public static void main(String[] args) {
+    Http.ip();
   }
+
+  /**
+   * Get local ip by ipify synchronously with HTTP/1.1 protocol.
+   * @return ip address String
+   */
   public static final String ip() {
     HttpClient client = HttpClient.newHttpClient();
     HttpResponse<String> response = null;
@@ -31,7 +37,11 @@ public final class HTTP {
     return response.body();
   }
 
-  public static final Future<HttpResponse<String>> asyncIP() {
+  /**
+   * Get local ip by ipify asynchronously with HTTP/2 protocol.
+   * @return a Future
+   */
+  public static final Future<HttpResponse<String>> asyncIp() {
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = null;
     try {
