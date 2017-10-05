@@ -49,9 +49,9 @@ subprojects {
                 classpath = files()
                 options.compilerArgs = [
                         '--module-path', configurations.compileClasspath.asPath,
-                        '--source-path', files(sourceSets.main.java.srcDirs).asPath,
                         '-d', "${sourceSets.main.java.outputDir}/$moduleName"
                 ]
+                options.sourcepath = files(sourceSets.main.java.srcDirs)
             }
             doLast {
                 copy {
