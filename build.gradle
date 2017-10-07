@@ -20,6 +20,7 @@ sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 ext.moduleName = 'com.github.clarkdo.jdk'
 
+def checkstyleConfigDir = new File(rootDir, 'config/checkstyle')
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -39,6 +40,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 subprojects {
+    apply plugin: 'checkstyle'
+    checkstyle {
+        configFile = new File(checkstyleConfigDir, "google_checks.xml")
+        configProperties.checkstyleConfigDir = checkstyleConfigDir
+        toolVersion = 8.2
+    }
+    tasks.withType(Checkstyle) {
+        exclude '**/module-info.java'
+    }
     afterEvaluate {
         repositories {
             jcenter()
@@ -86,6 +96,29 @@ subprojects {
         }
     }
 }
+task checkstyleAggregate {
+    description 'Aggregate Checkstyle reports and produce combined HTML report'
+    doLast {
+        def reportFiles = fileTree(rootDir).include('**/checkstyle/main.xml', '**/checkstyle/test.xml')
+        def reportDir = new File("${project.buildDir}/reports/checkstyle")
+        if (!reportDir.exists()) {
+            reportDir.mkdirs()
+        }
+        def file = new File("${reportDir}/aggregate.xml")
+        def fileElemWriter = new PrintWriter(file)
+        fileElemWriter.print('<checkstyle version="8.2">')
+        def fileElemXml = new XmlNodePrinter(fileElemWriter)
+        reportFiles.each { reportFile ->
+            new XmlParser().parse(reportFile).file.each { fileElemXml.print(it) }
+        }
+        fileElemWriter.print('</checkstyle>')
+        fileElemWriter.flush()
+        ant.xslt(in: file, style: "${checkstyleConfigDir}/checkstyle.xsl", out: "${reportDir}/checkstyle.html")
+    }
+}
+
+checkstyleAggregate.dependsOn { subprojects.check }
+
 task testReport(type: TestReport) {
     destinationDir = file("$buildDir/reports/allTests")
     reportOn subprojects.collect { it.tasks.withType(Test) }
