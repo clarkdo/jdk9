@@ -1,8 +1,11 @@
 package com.github.clarkdo.jdk.stream;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class DatePicker {
   public static final LocalDate middle = LocalDate.of(2017, 7, 1);
@@ -12,7 +15,7 @@ public final class DatePicker {
    * @param dates List
    * @return all dates
    */
-  public static final List<LocalDate> pickFirstHalf(List<LocalDate> dates) {
+  public static final List<LocalDate> firstHalf(List<LocalDate> dates) {
     return dates.stream()
         .takeWhile(d -> d.isBefore(middle))
         .collect(Collectors.toList());
@@ -23,9 +26,21 @@ public final class DatePicker {
    * @param dates List
    * @return all dates
    */
-  public static final List<LocalDate> pickSecondHalf(List<LocalDate> dates) {
+  public static final List<LocalDate> secondHalf(List<LocalDate> dates) {
     return dates.stream()
         .dropWhile(d -> d.isBefore(middle))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * pick date is not null.
+   * @param dates List
+   * @return all not null dates
+   */
+  public static final List<LocalDate> january(Map<Integer, LocalDate> dates) {
+    return dates.entrySet().stream()
+        .flatMap(e -> Stream.ofNullable(e.getValue()))
+        .filter(e -> e.getMonth() == Month.JANUARY)
         .collect(Collectors.toList());
   }
 }
