@@ -15,7 +15,7 @@ import org.junit.Test;
 public class DatePickerTest {
 
   private List<LocalDate> dates = List.of(
-      of(2017, 1, 1),
+      of(2017, 1, 2),
       of(2017, 3, 8),
       of(2017, 2, 14),
       of(2017, 4, 4),
@@ -25,8 +25,18 @@ public class DatePickerTest {
       of(2017, 12, 24)
   );
 
+  private Map<Integer, LocalDate> datesMap = new HashMap<>() {
+    {
+      put(1, LocalDate.of(2017, 1, 2));
+      put(2, LocalDate.of(2017, 3, 8));
+      put(3, null);
+      put(4, LocalDate.of(2017, 1, 3));
+      put(5, LocalDate.of(2017, 9, 30));
+    }
+  };
+
   @Test
-  public void testPickFirstHalf() {
+  public void testFirstHalf() {
     List<LocalDate> results = DatePicker.firstHalf(dates);
     Assert.assertEquals(4, results.size());
     Assert.assertThat(results, hasItem(of(2017, 4, 4)));
@@ -41,19 +51,23 @@ public class DatePickerTest {
   }
 
   @Test
-  public void testPickNotNull() {
-    Map<Integer, LocalDate> dates = new HashMap<>() {
-      {
-        put(1, LocalDate.of(2017, 1, 1));
-        put(2, LocalDate.of(2017, 3, 8));
-        put(3, null);
-        put(3, LocalDate.of(2017, 1, 3));
-      }
-    };
-    List<LocalDate> results = DatePicker.january(dates);
+  public void testNotNull() {
+    List<LocalDate> results = DatePicker.january(datesMap);
     Assert.assertEquals(2, results.size());
     Assert.assertThat(results, hasItems(
-        of(2017, 1, 1),
+        of(2017, 1, 2),
         of(2017, 1, 3)));
+  }
+
+
+  @Test
+  public void testFirstWeekdays() {
+    List<LocalDate> results = DatePicker.firstWeekdays(dates);
+    Assert.assertEquals(4, results.size());
+    Assert.assertThat(results, hasItems(
+        of(2017, 1, 2),
+        of(2017, 3, 8),
+        of(2017, 2, 14),
+        of(2017, 4, 4)));
   }
 }
